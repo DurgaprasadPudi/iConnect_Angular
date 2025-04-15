@@ -1,0 +1,339 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Attendance Reports</li>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <form class="p-2" [formGroup]="attendanceform">
+    <!-- Selection Type Radio -->
+    <div class="row g-3 align-items-center">
+      <div *ngIf="locations.length > 0" class="col-12 col-md-auto">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            [id]="'locationBased'"
+            value="location"
+            formControlName="selectionType"
+            (change)="onSelectionTypeChange($event.target.value)"
+          />
+          <label class="form-check-label" [for]="'locationBased'">
+            Location Wise
+          </label>
+        </div>
+      </div>
+      <div
+        class="col-12 col-md-auto"
+        *ngFor="let type of ['bu', 'empid']; let i = index"
+      >
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            [id]="type + 'Based'"
+            [value]="type"
+            formControlName="selectionType"
+            (change)="onSelectionTypeChange($event.target.value)"
+          />
+          <label class="form-check-label" [for]="type + 'Based'">
+            {{ type === "bu" ? "BU Wise" : "Employee Wise" }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Sections -->
+    <ng-container *ngIf="isLocationBased || isBuBased || isEmpBased">
+      <div class="row g-3 align-items-center mt-3 mb-3">
+        <!-- Location/BU/Emp Field -->
+        <div class="col-12 col-md-auto" *ngIf="isLocationBased">
+          <select class="form-select" formControlName="location">
+            <option value="" disabled selected>Select Location</option>
+            <option *ngFor="let location of locations" [value]="location.id">
+              {{ location.name }}
+            </option>
+          </select>
+        </div>
+        <!-- <div class="col-12 col-md-auto" *ngIf="isBuBased">
+          <select class="form-select" formControlName="bu" multiple>
+            <option value="" disabled selected>Select BU</option>
+            <option *ngFor="let item of bu" [value]="item.BUSINESSUNITID">
+              {{ item.NAME }}
+            </option>
+          </select>
+        </div> -->
+        <div
+          *ngIf="isBuBased"
+          class="border bg-white col-12 col-md-auto bubased py-0 px-1"
+        >
+          <!-- Select All Checkbox -->
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="selectAllBu"
+              [checked]="isAllSelected()"
+              (change)="toggleSelectAll($event)"
+            />
+            <label class="form-check-label small" for="selectAllBu">
+              Select All
+            </label>
+          </div>
+          <hr class="m-0 p-0" />
+          <!-- Individual Checkboxes -->
+          <div *ngFor="let item of bu" class="form-check">
+            <input
+            class="form-check-input"
+            type="checkbox"
+            [id]="'bu-' + item.id"
+            [value]="item.id"
+            [checked]="selectedBu.includes(item.id.toString())"
+            (change)="onBuChange($event, item.id.toString())"
+          />
+          
+            <label
+              class="form-check-label small"
+              [for]="'bu-' + item.id"
+            >
+              {{ item.name }}
+            </label>
+          </div>
+        </div>
+        <!-- <div class="col-12 col-md-auto" *ngIf="isEmpBased">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="employeeId"
+            placeholder="Employee ID"
+            maxlength="7"
+            minlength="5"
+          />
+        </div> -->
+        <div class="col-12 col-md-auto" *ngIf="isEmpBased">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="employeeId"
+            placeholder="Employee ID"
+            maxlength="7"
+            minlength="5"
+            style="width: 15ch"
+            (input)="onNumericInput($event)"
+            (blur)="attendanceform.get('employeeId')?.markAsTouched()"
+          />
+          <div
+            *ngIf="
+              attendanceform.get('employeeId')?.touched &&
+              attendanceform.get('employeeId')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
+            <span *ngIf="attendanceform.get('employeeId')?.errors?.['pattern']">
+              Please enter valid Id.
+            </span>
+          </div>
+        </div>
+        <!-- Duration Dropdown -->
+        <div class="col-12 col-md-auto">
+          <select class="form-select" formControlName="duration">
+            <option value="" disabled selected>Select Duration</option>
+            <option value="payperiod">Pay Period</option>
+            <option value="inbetween">In Between</option>
+          </select>
+        </div>
+
+        <!-- Pay Period Section -->
+        <ng-container *ngIf="durationControl.value === 'payperiod'">
+          <div class="col-12 col-md-auto">
+            <form [formGroup]="payPeriodForm">
+              <div class="d-flex align-items-center payperiod-section">
+                <label class="switch m-auto">
+                  <input type="checkbox" formControlName="isPayPeriodEnabled" />
+                  <span class="slider round"></span>
+                </label>
+                <span class="mx-2">Pay Period</span>
+
+                <div class="ms-3 d-flex align-items-center mr-2">
+                  <select
+                    class="form-select mr-2 w-auto"
+                    formControlName="selectedYear"
+                  >
+                    <option *ngFor="let year of yearList" [value]="year">
+                      {{ year }}
+                    </option>
+                  </select>
+                  <select
+                    class="form-select w-auto"
+                    formControlName="selectedMonth"
+                  >
+                    <option
+                      *ngFor="let month of filteredMonthList; let i = index"
+                      [value]="i + 1"
+                    >
+                      {{ month }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+        </ng-container>
+
+        <!-- In Between Section -->
+        <ng-container *ngIf="durationControl.value === 'inbetween'">
+          <div class="col-12 col-md-auto">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="From Date"
+              bsDatepicker
+              [maxDate]="today"
+              [bsConfig]="bsConfig"
+              style="width: 15ch"
+              formControlName="fromDate"
+            />
+          </div>
+          <div class="col-12 col-md-auto">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="To Date"
+              bsDatepicker
+              style="width: 15ch"
+              [bsConfig]="bsConfig"
+              [minDate]="fromDate"
+              [maxDate]="today"
+              formControlName="toDate"
+            />
+          </div>
+        </ng-container>
+        <div class="col-12 col-md-auto">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="submitAttendance()"
+            [disabled]="!attendanceform.valid"
+          >
+            Show Attendance
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </form>
+</div>
+
+<div class="container-fluid mt-4 p-4 scrollbar" *ngIf="attendanceData.length > 0">
+  <div class="row">
+    <div class="col-md-4 p-0">
+      <h5>Attendance Records</h5>
+    </div>
+    <div class="col-md-8 d-flex align-items-center justify-content-end p-0">
+      <button class="btn btn-success mr-2" (click)="downloadExcel()">
+        📥 Download Excel
+      </button>
+      <input
+        type="text"
+        class="form-control w-25"
+        placeholder="Search by ID or Name"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="currentPage = 1"
+      />
+    </div>
+
+    <div class="table-responsive mt-2">
+      <table
+        class="table table-bordered table-striped-columns table-hover small"
+      >
+        <thead class="sticky-thead">
+          <tr>
+            <th class="sticky-col sticky-header left-0">Emp ID</th>
+            <th class="sticky-col sticky-header left-1">Name</th>
+            <th class="sticky-col sticky-header left-2">BU</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Date of Join</th>
+            <th *ngFor="let date of dateColumns">{{ date }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredData">
+            <td class="sticky-col left-0">{{ item.ID }}</td>
+            <td class="sticky-col left-1">{{ item.NAME }}</td>
+            <td class="sticky-col left-2">{{ item.BU }}</td>
+            <td>{{ item.DEPT }}</td>
+            <td>{{ item.DESIGNATION }}</td>
+            <td>{{ item.DOJ }}</td>
+            <td *ngFor="let date of dateColumns">
+              <div *ngIf="item[date]">
+                <span
+                  *ngIf="item[date] !== '00:00:00 || 00:00:00||00:00:00||HL'"
+                >
+                  {{ item[date] }}
+                </span>
+                <span
+                  *ngIf="item[date] === '00:00:00 || 00:00:00||00:00:00||HL'"
+                  class="text-muted"
+                  >HL</span
+                >
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row align-items-center">
+    <div class="col-md-6">
+      <small class="page-info"
+        >Showing results {{ currentPageCount }} of {{ totalRecords }}</small
+      >
+    </div>
+    <div class="col-md-6 text-right">
+      <nav class="mt-3">
+        <ul class="pagination justify-content-end">
+          <li
+            class="page-item"
+            [class.disabled]="currentPage === 1"
+            (click)="changePage(currentPage - 1)"
+          >
+            <a class="page-link" aria-label="Previous">&laquo;</a>
+          </li>
+
+          <li
+            class="page-item"
+            *ngFor="let page of paginationRange"
+            [class.active]="page === currentPage"
+            (click)="changePage(page)"
+          >
+            <a class="page-link">{{ page }}</a>
+          </li>
+
+          <li
+            class="page-item"
+            [class.disabled]="currentPage === totalPages"
+            (click)="changePage(currentPage + 1)"
+          >
+            <a class="page-link" aria-label="Next">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>
