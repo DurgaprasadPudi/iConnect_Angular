@@ -1,0 +1,132 @@
+.breadcrumb
+  border-radius: 0px
+  background: white       
+  border-bottom: 1px dashed #0072bc
+  justify-content: space-between
+  align-items: center
+  li 
+    color: #0072bc
+    font-size: 18px
+    font-weight: 600        
+  ._date 
+    color: #e23d3a  
+    font-weight: 600 
+    font-size: 16px
+
+.crdsGrid 
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+    justify-content: space-between
+    align-items: center
+    width: 100% 
+    &:last-child
+      ul
+        border: 0  
+    ul    
+      padding: 0.5em 0             
+    ul:empty    
+      border: 0
+ul li
+  flex: 0 0 calc(20% - 20px)
+  border: 1px solid #CDCDCD
+  background: #fff
+  margin: 7px 12px
+  border-radius: 5px
+ul li:nth-child(5n + 1) 
+  margin-left: 0
+ul li:nth-child(5n) 
+  margin-right: 0
+
+  .theCard 
+    width: 100%
+    padding: 6px 10px
+    background-color: #f7f9fb
+    min-height: 140px
+    margin: 0.5em auto
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-flow: column
+    text-align: center
+    border-radius: 10px
+    cursor: pointer
+    outline: none
+    box-shadow: none
+    img
+      max-height: 45px
+      width: auto
+    a
+      font-size: 15px
+      font-weight: 600
+      line-height: 1.4
+      display: block
+      padding: 8px 0px
+      color: #101010
+      text-decoration: none
+      cursor: pointer
+      word-break: break-word    
+.card 
+  border: none
+.homeContnr
+  width: 100%
+  margin-bottom: 2em
+.crdsGrid 
+  padding: 0px 10px 0px 10px
+  ul
+    list-style-type: none
+    padding: 0
+    margin: 0  
+    display: flex
+    flex-flow: row
+    flex-wrap: wrap
+    width: 100%
+    li
+      padding: 5px 0px
+      a
+        text-decoration: none
+        margin: 0 .65em
+        display: block
+        cursor: pointer
+      span
+        color: #000
+        text-transform: capitalize
+        font-size: 12px
+        font-weight: 600
+.hrms-images img
+  background: #0072bc
+  padding: 6px
+  border-radius: 5px
+  height: 32px
+  width: 32px
+ul li:hover,
+ul li:active
+  background: #0072bc
+
+ul li:hover span,
+ul li:active span
+  color: #fff !important
+
+.crdsGrid li:hover .hrms-images img,
+.crdsGrid li:active .hrms-images img
+  background: #fff
+  padding: 6px
+  border-radius: 5px
+  height: 32px
+  width: 32px
+.hover-img 
+  display: none
+
+ul li:hover .hrms-images .default-img,
+ul li:active .hrms-images .default-img 
+  display: none
+
+ul li:hover .hrms-images .hover-img,
+ul li:active .hrms-images .hover-img 
+  display: block
+
+@media screen and (max-width:776px)
+  ul li
+    flex: 0 0 100% !important
+    max-width: 100% !important
+ 

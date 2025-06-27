@@ -1,0 +1,298 @@
+<div class="container mt-4">
+  <div class="section">
+    <div class="text-center p-2 border-bottom">
+      <img
+        [src]="logoUrl"
+        alt="Company Logo"
+        class="img-fluid"
+        style="max-height: 80px"
+      />
+    </div>
+    <div class="text-center border-bottom">
+      <h6 class="mt-2 fw-bolder">
+        PRESENT EMPLOYEES' STRENGTH AND VACANT POSITIONS
+      </h6>
+    </div>
+
+    <form [formGroup]="tableForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="border-bottom">
+        <div class="row px-2">
+          <!-- Department -->
+          <div class="col-md-3">
+            <div class="d-flex align-items-center position-relative w-100">
+              <label for="departmentSearch" class="form-label me-2"
+                >Department<span class="text-danger">*</span>
+              </label>
+              <div class="w-100">
+                <input
+                  id="departmentSearch"
+                  type="text"
+                  class="form-control"
+                  [formControl]="departmentSearchControl"
+                  (input)="onDepartmentSearchChange()"
+                  placeholder="Search Department"
+                  [class.is-invalid]="
+                    tableForm.get('departmentId')?.touched &&
+                    tableForm.get('departmentId')?.invalid
+                  "
+                />
+                <div
+                  *ngIf="
+                    tableForm.get('departmentId')?.touched &&
+                    tableForm.get('departmentId')?.invalid
+                  "
+                  class="invalid-feedback d-block"
+                >
+                  Department is required.
+                </div>
+                <!-- Bootstrap Dropdown -->
+                <div
+                  class="dropdown-menu show w-100 mt-0"
+                  *ngIf="
+                    filteredDepartments.length > 0 &&
+                    departmentSearchControl.value
+                  "
+                  style="
+                    max-height: 200px;
+                    overflow-y: auto;
+                    position: absolute;
+                    top: 100%;
+                    z-index: 1050;
+                  "
+                >
+                  <button
+                    type="button"
+                    *ngFor="let dept of filteredDepartments"
+                    class="dropdown-item"
+                    (click)="onDepartmentSelect(dept)"
+                  >
+                    {{ dept.name }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="col-md-3">
+            <div class="d-flex gap-2 align-items-center">
+              <label for="location" class="form-label mr-2"
+                >Location<span class="text-danger">*</span>
+              </label>
+              <input
+                maxlength="150"
+                type="text"
+                id="location"
+                formControlName="location"
+                class="form-control"
+                placeholder="Enter Location"
+                [class.is-invalid]="
+                  tableForm.get('location')?.touched &&
+                  tableForm.get('location')?.invalid
+                "
+              />
+              <div
+                *ngIf="
+                  tableForm.get('location')?.touched &&
+                  tableForm.get('location')?.invalid
+                "
+                class="invalid-feedback d-block"
+              >
+                Location is required.
+              </div>
+            </div>
+          </div>
+
+          <!-- Date -->
+          <div class="col-md-3">
+            <div class="d-flex gap-2 align-items-center">
+              <label for="date" class="form-label mr-2"
+                >Date<span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                id="date"
+                bsDatepicker
+                (keypress)="allowOnlyNumbers($event)"
+                formControlName="date"
+                class="form-control"
+                placeholder="Enter Date"
+                [class.is-invalid]="
+                  tableForm.get('date')?.touched &&
+                  tableForm.get('date')?.invalid
+                "
+                (keypress)="onDateKeypress($event)"
+              />
+              <div
+                *ngIf="
+                  tableForm.get('date')?.touched &&
+                  tableForm.get('date')?.invalid
+                "
+                class="invalid-feedback d-block"
+              >
+                Date is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 position-relative">
+            <div class="d-flex gap-2 align-items-center">
+              <label class="form-label mr-2"
+                >HOD<span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="unitHeadName"
+                class="form-control"
+                placeholder="Enter Unit Head Name"
+                (input)="onUnitHeadNameInput()"
+                (blur)="onUnitHeadBlur()"
+                autocomplete="off"
+                [class.is-invalid]="
+                  tableForm.get('unitHeadName')?.touched &&
+                  tableForm.get('unitHeadName')?.invalid
+                "
+              />
+
+              <div
+                *ngIf="
+                  tableForm.get('unitHeadName')?.touched &&
+                  tableForm.get('unitHeadName')?.invalid
+                "
+                class="invalid-feedback d-block"
+              >
+                Unit Head Name is required.
+              </div>
+            </div>
+
+            <ul
+              class="dropdown-menu show w-100"
+              *ngIf="showUnitHeadDropdown"
+              style="max-height: 200px; overflow-y: auto"
+            >
+              <li
+                class="dropdown-item"
+                *ngFor="let head of unitHeadSearchResults"
+                (click)="selectUnitHead(head)"
+              >
+                {{ head.id }} - {{ head.name }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row my-2 mx-1">
+        <div class="col-md-12 text-right">
+          <button class="btn btn-primary" type="button" (click)="addRow()">
+            Add Row
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered text-center align-middle">
+          <thead class="table-light">
+            <tr>
+              <th rowspan="2">S.No</th>
+              <th rowspan="2">Designations</th>
+              <th rowspan="2">Present Strength</th>
+              <th rowspan="2">Approved Vacancies</th>
+              <th colspan="4">Vacancy to be filled in the quarter</th>
+              <th rowspan="2">Remarks</th>
+              <th rowspan="2">Action</th>
+            </tr>
+            <tr>
+              <th>I</th>
+              <th>II</th>
+              <th>III</th>
+              <th>IV</th>
+            </tr>
+          </thead>
+          <tbody formArrayName="rows">
+            <tr
+              *ngFor="let row of rows.controls; let i = index"
+              [formGroupName]="i"
+            >
+              <td>{{ i + 1 }}</td>
+              <td>
+                <input class="form-control" formControlName="designation" />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="presentStrength"
+                />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="approvedVacancies"
+                />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="q1"
+                />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="q2"
+                />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="q3"
+                />
+              </td>
+              <td>
+                <input
+                  class="form-control"
+                  type="text"
+                  (keypress)="allowOnlyNumbers($event)"
+                  formControlName="q4"
+                />
+              </td>
+              <td><input class="form-control" formControlName="remarks" /></td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="removeRow(i)"
+                  *ngIf="rows.length > 1"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-center my-3">
+              <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="!isFormValid()"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

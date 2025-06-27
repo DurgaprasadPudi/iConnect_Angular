@@ -1,0 +1,155 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Insurance Details
+      </li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+<!-- Insurance Documents Card -->
+<div class="container-fluid mt-4 d-flex">
+  <div class="card p-4 rounded" style="width: 1060px">
+    <h4 class="mb-4 text-primary d-flex align-items-center">
+      <i class="fa fa-file-pdf-o mr-2"></i> Insurance Documents
+    </h4>
+
+    <div class="gap-4">
+      <!-- Self Insurance -->
+      <div
+        *ngIf="insuranceData?.fileContent && insuranceData.fileContent !== 'NA'"
+        class="d-flex align-items-center justify-content-between border rounded p-3 bg-white mb-3"
+      >
+        <div class="d-flex align-items-center" style="min-width: 250px">
+          <i class="fa fa-user text-primary fa-lg"></i>
+          <span class="ml-2 font-weight-medium">Self Insurance Details</span>
+        </div>
+        <button
+          class="btn btns btn-danger"
+          (click)="openModal('self')"
+          title="View Self Insurance"
+        >
+          <!-- <img
+            src="/assets/img/View-PDF-button.png"
+            alt="pdf"
+            height="40"
+            width="130"
+          /> -->
+          <i class="fa fa-eye mr-1"></i>View Health Card
+        </button>
+        <button
+          class="btn btns btn-primary"
+          [disabled]="!hasManualFile('SELF_CLAIM_DOC.pdf')"
+          (click)="openModal1('claim')"
+        >
+          <i class="fa fa-file-text-o mr-1"></i>View Claim Document
+        </button>
+
+        <button
+          class="btn btns btn-success"
+          [disabled]="!hasManualFile('SELF_POLICY_BENIFITS_DOC.pdf')"
+          (click)="openModal1('policy')"
+        >
+          <i class="fa fa-shield mr-1"></i>View Policy Benefits
+        </button>
+      </div>
+
+      <!-- Family Insurance -->
+      <div
+        *ngIf="
+          insuranceData?.familyFileContent &&
+          insuranceData.familyFileContent !== 'NA'
+        "
+        class="d-flex align-items-center justify-content-between border rounded p-3 bg-white"
+      >
+        <div class="d-flex align-items-center" style="min-width: 250px">
+          <i class="fa fa-users text-danger fa-lg"></i>
+          <span class="ml-2 font-weight-medium">Family Insurance Details</span>
+        </div>
+        <button
+          class="btn btn btn-danger"
+          (click)="openModal('family')"
+          title="View Family Insurance"
+        >
+          <!-- <img
+            src="/assets/img/View-PDF-button.png"
+            alt="pdf"
+            height="40"
+            width="130"
+          /> -->
+          <i class="fa fa-eye mr-1"></i>View Health Card
+        </button>
+        <button
+          class="btn btns btn-primary"
+          [disabled]="!hasManualFile('FAMILY_CLAIM_DOC.pdf')"
+          (click)="
+            openManualPdf('FAMILY_CLAIM_DOC.pdf', 'Family Claim Document')
+          "
+        >
+          <i class="fa fa-file-text-o mr-1"></i>View Claim Document
+        </button>
+
+        <button
+          class="btn btns btn-success"
+          [disabled]="!hasManualFile('FAMILY_POLICY_BENIFITS_DOC.pdf')"
+          (click)="
+            openManualPdf(
+              'FAMILY_POLICY_BENIFITS_DOC.pdf',
+              'Family Policy Benefits'
+            )
+          "
+        >
+          <i class="fa fa-shield mr-1"></i>View Policy Benefits
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Section -->
+<div
+  *ngIf="isModalVisible"
+  class="modal d-block"
+  tabindex="-1"
+  style="background-color: rgba(0, 0, 0, 0.5)"
+>
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary">
+          <i class="fa fa-file-pdf-o mr-2"></i> {{ currentFileTitle }}
+        </h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <iframe
+          *ngIf="sanitizedPdfUrl"
+          [src]="sanitizedPdfUrl"
+          width="100%"
+          height="500px"
+        ></iframe>
+      </div>
+      <!-- <div class="modal-footer">
+        <button
+          class="btn btn-primary"
+          (click)="downloadBase64Pdf(currentFileContent, currentFileName)"
+        >
+          <i class="fa fa-download"></i> Download
+        </button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,453 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb"> 
+      <span>
+        <!-- <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+        <li class="breadcrumb-item" [routerLink]="['/profileRequests']">Profile Requests</li> -->
+        <li class="breadcrumb-item active" aria-current="page">
+          Office Summary: Eligible Employees (Current Year)
+        </li>
+    </span> 
+     <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+      {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> 
+    </ol>
+  </nav>
+  <div class="container-fluid">
+    
+    <div class="bgWyt"> 
+      <div class="search-hero">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchText"
+        autocomplete="off" placeholder="Search by Employee Name / ID / BU" 
+        (ngModelChange)="applySearchFilter()"  (keydown)="allowOnlyLettersAndSpaces($event)"/>
+ 
+    </div>
+    
+    <div class="myTableScroll empinfo" >
+      <table >
+        <thead>
+          <tr>
+            <th class="sticky-col first-col"><span>Emp Name</span></th>
+            <th class="sticky-col second-col"><span>Emp ID</span></th>
+            <th class="sticky-col"><span>DOJ</span></th>  
+            <th class="sticky-col"><span>Business Unit</span></th> 
+            <th class="sticky-col"><span>Department</span></th> 
+            <th class="sticky-col"><span>Designation</span></th> 
+            <th class="sticky-col"><span>Action</span></th>
+
+          </tr>
+        </thead>
+        <tbody *ngIf="listOfReqsts">
+          <tr *ngIf="listOfReqsts.length == 0">
+            <td colspan="9">
+             <h2 class="noData">No Records</h2>
+            </td>
+          </tr>
+          <tr *ngFor="let item of listOfReqsts;let i=index;">
+            <!-- <td class="sticky-col s_no" >{{i+1}}</td> -->
+            <td class="sticky-col first-col">{{item.Employeename}}</td>
+            <td class="sticky-col second-col">{{item.EmployeeSeq}}</td>
+            <td>{{item.DOJ}}</td> 
+            <td>{{item.BUNAME}}</td> 
+            <td>{{item.Department}}</td>
+            <td>{{item.Designation}}</td>
+   <td class="text-center">
+  <div style="white-space: nowrap;">
+    <button type="button" class="btn btn-primary btn-sm mx-1"
+            data-toggle="modal" data-target="#veiwModal"
+            (click)="showmyModal(); View(item);">
+      View
+    </button>
+
+    <button type="button" class="btn btn-success btn-sm mx-1"
+            *ngIf="userData?.user?.sublocation !== 'MUM'"
+            data-toggle="modal" data-target="#veiwModalApply"
+            (click)="showmyModalApply(); ViewApply(item)">
+      Apply
+    </button>
+  </div>
+</td>
+
+        </tr>
+        
+     
+        </tbody>
+      </table> 
+    </div>
+    </div>
+  </div>
+  <div class="modal detailsModl _csvew" id="veiwModal" [style.display]="veiwModal ? 'block' : 'none'"> 
+    <div class="modal-dialog modal-dialog-centered modal-xl fullwidthmodel" *ngIf="empData">
+      <div class="modal-content"> 
+        <div class="modal-header" style="align-items: center">
+          <div class="modal_title_img">
+            <h5><span class="label">Employee History :</span> {{empData.Employeename}} (<span class="label">ID:</span> {{empData.EmployeeSeq}}) |<span class="label"> DOJ:</span> {{empData.DOJ}} | <span class="label">Experience:</span> {{empData.Experience}}</h5>
+           </div>
+          <button type="button" (click)="closeVeiwModal()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        </div> 
+<div class="modal-body">
+    <ng-container *ngIf="modalType == ''">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="myTableScroll popuptable">
+            <table>
+                <thead>
+                  <tr>
+                    <th class="sticky-col prev" colspan="6"><span>Assigned</span></th>
+                  </tr>
+                  <tr>
+                    <th>Leave Type</th>
+                    <th>Total</th>
+                    <th>Avail</th>
+                    <th>Used</th>
+                    <th>Hr Deduction</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let leaves of leavedata">
+                    <td>{{ leaves.NAME }}</td>
+                    <td>
+                      <ng-container *ngIf="editingLeave === leaves; else showTotal">
+                        <!-- Reactive form input for QUANTITY -->
+                        <input type="text" [formControl]="leaveForm.get('QUANTITY')"    pattern="^[0-9]{1,3}$"  
+                        maxlength="3" 
+                        minlength="1" 
+                        inputmode="numeric" (keypress)="onlyNumbers($event)"  style="width:50%" autocomplete="off"/>
+                      </ng-container>
+                      <ng-template #showTotal>
+                        <!-- Default display for Total when not editing -->
+                        {{ leaves.QUANTITY }}
+                      </ng-template>
+                    </td>
+                    <td>{{ leaves.AVAILABLEQTY }}</td>
+                    <td>{{ leaves.USEDQTY }}</td>
+                    <td>{{ leaves.HOLD }}</td>
+                    <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3|| leaves.LEAVETYPEID === 4; else disabledButton">
+                      <td>
+                        <!-- Button changes between Edit and Update -->
+                        <button  class="action" type="button" (click)="Action(leaves, editingLeave === leaves ? 'Update' : 'Edit')" 
+                         *ngIf="sublocation !== 'HYD' && sublocation !== 'ASSAM'">  
+                          {{ editingLeave === leaves ? 'Update' : 'Edit' }}
+                        </button>
+                      </td>
+                    </ng-container>
+                    <ng-template #disabledButton>
+                      <td>
+                        <!-- Lock button for other leave types -->
+                        <button class="action" type="button" (click)="Action(leaves, 'Lock')">Lock</button>
+                      </td>
+                    </ng-template>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div> 
+        <div class="col-md-6"> 
+            <div class="myTableScroll maxtable">
+                <table>                   
+                    <thead>
+                        <tr> 
+                            <th class="sticky-col req" colspan="6"><span>Unassigned</span></th>   
+                        </tr>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>Total</th>
+                            <!-- <th>Avail</th>
+                            <th>Used</th> -->
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let leaves of unassignedlist">
+                        <td>{{ leaves.NAME }}</td>
+                        <td>
+                          <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3||leaves.LEAVETYPEID === 4; else na">
+                            <input type="text" id="Total" name="Total" placeholder="Add Quantity" [(ngModel)]="leaves.Total"
+                              maxlength="3" minlength="1" inputmode="numeric"
+                              #totalInput="ngModel" (keypress)="onlyNumbers($event)"  autocomplete="off"/>
+                          </ng-container>
+                          <ng-template #na>NA</ng-template>
+                        </td>
+                        <td>
+                          <ng-container *ngIf="leaves.LEAVETYPEID === 1 || leaves.LEAVETYPEID === 2 || leaves.LEAVETYPEID === 3||leaves.LEAVETYPEID === 4; else Enable">
+                            <button class="action" type="button" (click)="Action(leaves, 'Add')">Add</button>
+                          </ng-container>
+                          <ng-template #Enable>
+                            <button class="action" type="button" (click)="Action(leaves,'Assign')">Assign</button>
+                          </ng-template>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                </table>
+            </div> 
+        </div>           
+      </div>
+    </ng-container>
+  </div> 
+      </div>
+    </div> 
+  </div>
+  <div class="modal detailsModl _csvew" id="veiwModalApply" [style.display]="veiwModalApply ? 'block' : 'none'"> 
+    <div class="modal-dialog modal-dialog-centered" *ngIf="empData">
+      <div class="modal-content"> 
+        <div class="modal-header" style="align-items: center">
+          <div class="modal_title_img">
+            <h5><span class="label">Employee History :</span> {{empData.Employeename}} (<span class="label">ID:</span> {{empData.EmployeeSeq}}) |<span class="label"> DOJ:</span> {{empData.DOJ}} | <span class="label">Experience:</span> {{empData.Experience}}</h5>
+           </div>
+          <button type="button" (click)="closeVeiwModalApply()" class="close"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+        </div> 
+<div class="modal-body">
+    <ng-container *ngIf="modalType == ''">
+            <div class="flxRow">
+                <div class="_col">
+                    <div class="card">
+                      <h5>Apply Leave</h5> 
+                      <span *ngIf="showNotfctn" class="notfctnAlert">Available <b>{{selctdLeave}}</b> Quantity : <b>{{actual_availblLeaves}}</b>,&nbsp;Eligible Leaves Limit : Min - <b>{{minAvlDtes}}</b> &amp; Max - <b>{{maxAvlDates}}</b></span>
+                      <span *ngIf="showNotfctn1" class="notfctnAlert absltAlrt">{{notifyMsg}}</span>
+                       
+                      <div class="leaveFormSection">
+                        <form [formGroup]="LeaveApplyForm" (ngSubmit)="submitLeaveForm()">
+                          <div class="form-group">
+                            <label>Select Leave Category</label>              
+                            <select name="selectMonth" class="form-control" formControlName="leaveType" 
+                            [ngClass]="{ 'is-invalid': submitted && f.leaveType.errors, 'red_bordr': showError }" 
+                            (change)='onOptionsSelected($event)' > 
+                            <option disabled selected [ngValue]="''">{{ defaultLeave }}</option>
+                               
+                                <option *ngFor="let option of leaveTypes"
+                                  class="optionsList" [value]="option.shortname">{{option.fullname}}</option>
+                            </select>   
+                            <!-- <div *ngIf="f.leaveType.touched && f.leaveType.invalid" class="alert alert-danger myAlrt">
+                              <div *ngIf="f.leaveType.errors.required">Leave Category is required</div>                        
+                            </div>  -->
+                            <div *ngIf="submitted && f.leaveType.errors" class="invalid-feedback">
+                              <div *ngIf="f.leaveType.errors.required">Leave Category is required</div>
+                          </div>
+                          <div *ngIf="showError" class="invalid_fdbck">
+                            Leave Category is required
+                          </div>
+                          </div>  
+                                <fieldset [disabled]="isDatePickerDisabled">
+                                <div class="fRow">
+                                    <!-- from date picker -- -->
+                                <div class="form-group">
+                                  <label>From</label>
+                                  <input type="text"
+                                        placeholder=""
+                                        class="form-control"
+                                        formControlName="fromDate"
+                                        [ngClass]="{ 'is-invalid': submitted && f.fromDate.errors }"
+                                        bsDatepicker                      
+                                        [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, customTodayClass: 'custom-today-class', dateInputFormat: 'DD-MMM-YYYY' }"
+                                        [minDate]="minDateFrom"
+                                        [maxDate]="maxDateFrom"                      
+                                        readonly   
+                                        (bsValueChange)="dateCreated($event)"  />  
+                                        <!-- <div *ngIf="f.fromDate.touched && f.fromDate.invalid" class="alert alert-danger myAlrt">
+                                          <div *ngIf="f.fromDate.errors.required">From Date is required</div>                        
+                                        </div>  -->
+                                        <div *ngIf="submitted && f.fromDate.errors" class="invalid-feedback">
+                                          <div *ngIf="f.fromDate.errors.required">From Date is required</div>
+                                      </div>
+                                  </div>
+              
+                                  <!-- -- to date picker -- -->
+                                  <div class="form-group">
+                                    <label>To</label>
+                                    <input type="text"
+                                          placeholder=""
+                                          class="form-control"
+                                          formControlName="toDate"
+                                          [ngClass]="{ 'is-invalid': submitted && f.toDate.errors }"
+                                          bsDatepicker 
+                                          [bsConfig]="{adaptivePosition: true, showWeekNumbers: false, isAnimated: true, containerClass: colorTheme, dateInputFormat: 'DD-MMM-YYYY'  }"
+                                          [minDate]="minDateTo"
+                                          [maxDate]="maxDateTo" 
+                                          readonly
+                                          (onHidden)="maxDate_Clicks($event)"  />
+                                          <!-- <div *ngIf="f.toDate.touched && f.toDate.invalid" class="alert alert-danger myAlrt">
+                                              <div *ngIf="f.toDate.errors.required">To Date is required</div>                        
+                                            </div>  -->
+                                            <div *ngIf="submitted && f.toDate.errors" class="invalid-feedback">
+                                              <div *ngIf="f.toDate.errors.required">To Date is required</div>
+                                          </div>
+                                  </div>
+                                  </div>
+                                </fieldset>
+                             
+                         
+                          
+                             <div class="form-group">
+                              <label>Full/Half Day</label>
+                              <select name="selectdayTypes" class="form-control"  formControlName='day_Type' (change)='onDayTypeSelected($event)'>
+                                  <option *ngFor="let option of dayTypes" class="optionsList" [value]="option">{{option}}</option>
+                               </select>
+                            </div>
+                           <div class="fRow" *ngIf="showHlfDayInputs">
+                            <div class="form-group"> 
+                              <label>Date</label>
+                              <select class="form-control" name="halfDayDate" formControlName='hlfDay_Date'  (change)='halfDayDate($event)' required>
+                                <!-- <option disabled hidden [ngValue]="" selected>--select--</option> -->
+                                <option *ngFor="let option of halfDayDates" class="optionsList" [ngValue]="option">{{option | date: "dd-MMM-yyyy"}}</option>                   
+                              </select>
+                            </div>
+                            <div class="form-group"> 
+                              <label>&nbsp;</label>
+                              <select class="form-control" name="dayType" formControlName='hlfDay_Type'  (change)='Half_dayType($event)' required> 
+                                <option *ngFor="let option of halfDayType" class="optionsList" [ngValue]="option">{{option}}</option> 
+                              </select>
+                               
+                            </div>
+                            
+                          </div>
+                          
+                          
+              
+                          <div class="fRow" *ngIf='showLoctnInputs'>
+                            <div class="form-group">
+                              <label>From Location</label>
+                            <div class="ng-autocomplete">
+                              <ng-autocomplete [data]="data1" [searchKeyword]="keyword1" (selected)='selectEvent1($event)' formControlName="OD_FromLocation"
+                                  (inputChanged)='onChangeSearch1($event)' (inputFocused)='onFocused1($event)' [itemTemplate]="itemTemplate1"
+                                  [notFoundTemplate]="notFoundTemplate1">
+                              </ng-autocomplete>
+                          
+                              <ng-template #itemTemplate1 let-item>
+                                  <a [innerHTML]="item.name"></a>
+                              </ng-template>
+                          
+                              <ng-template #notFoundTemplate1 let-notFound>
+                                  <div [innerHTML]="notFound"></div>
+                              </ng-template>
+                          </div>
+                          <div class="alert alert-danger myAlrt" *ngIf="showFromLoctnError">From Location is required</div>
+                        </div>
+                        <div class="form-group">
+                          <label>To Location</label>
+                          <div class="ng-autocomplete">
+                            <ng-autocomplete [data]="data2" [searchKeyword]="keyword2" (selected)='selectEvent2($event)' formControlName="OD_ToLocation" 
+                                (inputChanged)='onChangeSearch2($event)' (inputFocused)='onFocused2($event)' [itemTemplate]="itemTemplate2"
+                                [notFoundTemplate]="notFoundTemplate2">
+                            </ng-autocomplete>
+                        
+                            <ng-template #itemTemplate2 let-item>
+                                <a [innerHTML]="item.name"></a>
+                            </ng-template>
+                        
+                            <ng-template #notFoundTemplate2 let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                       
+                          <div class="alert alert-danger myAlrt" *ngIf="showToLoctnError">To Location is required</div>
+                         
+                          </div>
+                        </div>
+              
+                           
+                          <div class="form-group">
+                              <label >Reason for Leave</label>
+                              <textarea class="form-control"
+                               formControlName="reason" [ngClass]="{ 'is-invalid': submitted && f.reason.errors }" 
+                                placeholder="Reason for Leave"></textarea>
+                              <!-- <div *ngIf="f.reason.touched && f.reason.invalid" class="alert alert-danger myAlrt">
+                                  <div *ngIf="f.reason.errors.required">Reason is required</div>                        
+                                </div>  -->
+                                <div *ngIf="submitted && f.reason.errors" class="invalid-feedback">
+                                  <div *ngIf="f.reason.errors.required">Reason is required</div>
+                                  <div *ngIf="f.reason.errors.minlength">Reason must be 3 or more characters in length</div>
+                                  <div *ngIf="f.reason.errors.maxlength">Reason max limit 300 characters</div>
+                               </div>
+                          </div>
+                       
+                           
+                            <div class="form-group">
+                              <button type="submit" [disabled]="disableButton" class="applyBtn">Apply</button>
+                            </div>
+                        </form>
+                      </div>
+                       
+                    </div>
+                  </div>
+          
+              <div class="_col">
+          
+                  <!-- Leave Types -->
+                <div class="card d-none">
+                  <h5>Leave Types</h5>
+                  <div class="flxItms col3">
+                    <ul>
+                      <li>
+                        <b>CL</b>
+                        <p>Casual Leave</p>
+                      </li>
+                      <li>
+                        <b>EL</b>
+                        <p>Earned Leave</p>
+                      </li>
+          
+                      <li>
+                        <b>WFH</b>
+                        <p>Work From Home</p>
+                      </li>
+                      <li>
+                        <b>SL</b>
+                        <p>Sick Leave</p>
+                      </li>
+                      <li>
+                        <b>OD</b>
+                        <p>Onduty</p>
+                      </li>
+                      <li>
+                        <b>LOP</b>
+                        <p>Loss Of Pay</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+          
+                <!-- Available Leaves -->
+                <div class="card">
+                  <div class="tableSectn">
+                    <div class="flxEnd">
+                      <h5>Available Leaves</h5>
+                    </div> 
+          
+                    <div class="myTableScroll">
+                      <table >
+                        <thead>
+                          <tr>
+                            <th class="sticky-col"><span>Leave Type</span></th>
+                            <th class="sticky-col"><span>Quota</span></th>
+                            <th class="sticky-col"><span>Used</span></th>
+                            <th class="sticky-col"><span>Remaining</span></th>  
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="leaveDataInformation">
+                          <tr *ngFor="let item of leaveDataInformation">
+                             <td>{{item.leavetypename}}</td>
+                             <td><span>{{item.quantity}}</span></td>
+                             <td><span>{{item.usedqty}}</span></td>
+                             <td><span>{{item.availqty}}</span></td>                    
+                         </tr>  
+                         </tbody>
+                        </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </ng-container>
+  </div> 
+      </div>
+    </div> 
+  </div> 
+    <div class="loader transLoadr" *ngIf="isLoading">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>  

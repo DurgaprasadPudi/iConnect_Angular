@@ -1,0 +1,416 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">HR/HRMS</li>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <div class="homeContnr">
+    <!-- <div class="imgContiner">
+      <h1>HR/HRMS</h1>
+      <img src="./././assets/img/manager/homeBG.svg" alt="homeBG" />
+    </div> -->
+    <!-- Our Info card -->
+    <div class="card ourInfo">
+      <div class="crdsGrid">
+        <h5 class="my-2">Employee Administration & Attendance Reports</h5>
+        <ul>
+          <ng-container *ngFor="let x of Ryts">
+            <li *ngIf="x.bulkupload == 'true'">
+              <a [routerLink]="['/bulkupload']">
+                <div class="hrms-images mb-1"> 
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/bulk-upload.png"
+                    alt="bulkuploads"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/bulk-upload-active.png"
+                    alt="bulkuploads-hover"
+                  />
+                </div>
+                <span>Bulk Upload (ESI,UAN,PF)</span>
+              </a>
+            </li>
+
+            <li *ngIf="x.BU_Attendance == 'true'">
+              <a [routerLink]="['/buAttendance']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/bu-attendance.png"
+                    alt="BU Attendance"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/bu-attendace-active.png"
+                    alt="BU Attendance"
+                  />
+                </div>
+                <span>BU Attendance</span>
+              </a>
+            </li>
+            <!-- <li *ngIf="x.LeaveQuota == 'true'">
+              <a [routerLink]="['/hrms/leaveQuota']">
+                <span>LQ</span>
+                <p>Leave Quota</p>
+              </a>
+            </li> -->
+
+            <li *ngIf="x.Unfreeze_dates == 'true'">
+              <a [routerLink]="['/unfreezeDates']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/unfreezed-dates.png"
+                    alt="Unfreeze Dates"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/unfreezed-dates-active.png"
+                    alt="Unfreeze Dates"
+                  />
+                </div>
+                <span>Unfreeze Dates</span>
+              </a>   
+            </li>
+            <li *ngIf="x.Flexi_Policy == 'true'">
+              <a [routerLink]="['/flexiPolicy']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/flex-policy.png"
+                    alt="Flexi Policy"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/flex-policy-active.png"
+                    alt="Flexi Policy"
+                  />
+                </div>
+                <span>Flexi Policy</span>
+              </a>
+            </li>
+            <li *ngIf="x.Attendance_Log == 'true'">
+              <a [routerLink]="['/attendanceLogs']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/attendance-log.png"
+                    alt="Attendance Logs"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/attendance-log-active.png"
+                    alt="Attendance Logs"
+                  />
+                </div>
+                <span>Attendance Logs</span>
+              </a>
+            </li>
+            <li *ngIf="x.Attendance_Txn_Dates == 'true'">
+              <a [routerLink]="['/attendanceReader']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/attendance-txn-dates.png"
+                    alt="Attendance Txn Dates"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/attendance-txn-dates-active.png"
+                    alt="Attendance Txn Dates"
+                  />
+                </div>
+                <span>Attendance Txn Dates</span>
+              </a>
+            </li>
+            <li *ngIf="x.Saturday_Policy == 'true'">
+              <a [routerLink]="['/saturdayPolicy']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/saturday-policy.png"
+                    alt="Saturday Policy"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/saturday-policy-active.png"
+                    alt="Saturday Policy"
+                  />
+                </div>
+                <span>Saturday Policy</span>
+              </a>
+            </li>
+            <li *ngIf="x.profile_dashboard == 'true'">
+              <a [routerLink]="['/profileRequests']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/profile-requests.png"
+                    alt=">Profile Requests"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/profile-request-active.png"
+                    alt=">Profile Requests"
+                  />
+                </div>
+                <span>Profile Requests</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="crdsGrid">
+        <ul>
+          <ng-container *ngFor="let x of Ryts">
+            <li *ngIf="x.Review_Letters == 'true'">
+              <a [routerLink]="['/reviewletter']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/appointment-letter.png"
+                    alt="Appointment Letters"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/appointment-letter-active.png"
+                    alt="Appointment Letters"
+                  />
+                </div>
+                <span>Appointment Letters</span>
+              </a>
+            </li>
+            <li *ngIf="x.hike_Letters == 'true'">
+              <a [routerLink]="['/hikereviewletter']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/hike-letter.png"
+                    alt="Hike Letters"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/hike-letter-active.png"
+                    alt="Hike Letters"
+                  />
+                </div>
+                <span>Hike Letters</span>
+              </a>
+            </li>
+
+            <li *ngIf="x.promotionletter == 'true'">
+              <a [routerLink]="['/promotionletter']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/promotion-letter.png"
+                    alt="Promotion Letters"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/promotion-letter-active.png"
+                    alt="Promotion Letters"
+                  />
+                </div>
+                <span>Promotion Letters</span>
+              </a>
+            </li>
+
+            <li *ngIf="x.Payslips == 'true'">
+              <a [routerLink]="['/Payslipupload']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/upload-payslips.png"
+                    alt="Upload Payslips"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/upload-payslips-active.png"
+                    alt="Upload Payslips"
+                  />
+                </div>
+                <span>Upload Payslips</span>
+              </a>
+            </li>
+            <li *ngIf="x.employee_cnf == 'true'">
+              <a [routerLink]="['/confirmationletter']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/confirmation-letter.png"
+                    alt="Confirmation Letters"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/confirmation-letter-active.png"
+                    alt="Confirmation Letters"
+                  />
+                </div>
+                <span>Confirmation Letters</span>
+              </a>
+            </li>
+            <li *ngIf="x.employee_cnf == 'true'">
+              <a [routerLink]="['/passswordcreation']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/reset-password.png"
+                    alt="Update Employee Password"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/reset-password-active.png"
+                    alt="Update Employee Password"
+                  />
+                </div>
+                <span>Update Employee Password</span>
+              </a>
+            </li>
+            <li *ngIf="x.attendance_report == 'true'">
+              <a [routerLink]="['/attendance']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/attendance.png"
+                    alt="Attendance Reports"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/attendance-active.png"
+                    alt="Attendance Reports"
+                  />
+                </div>
+                <span>Attendance Reports</span>
+              </a>
+            </li>
+
+            <li *ngIf="x.idcardhistory == 'true'">
+              <a [routerLink]="['/idcardhistory']">
+                <div class="hrms-images mb-1">
+                  <img class="default-img" src="./assets/hrms/unfreezed-dates.png" alt="idcard-history" />
+                  <img class="hover-img" src="./assets/hrms/unfreezed-dates-active.png" alt="idcard-history" />
+                </div>
+                <span>Idcard-History</span>
+              </a>
+            </li>
+          
+            <li *ngIf="x.upload_insurance == 'true'">
+              <a [routerLink]="['/upload-insurance-details']">
+                <div class="hrms-images mb-1">
+                  <img class="default-img" src="./assets/hrms/upload-insurance.png" alt="upload-insurance" />
+                  <img class="hover-img" src="./assets/hrms/upload-insurance-active.png" alt="upload-insurance" />
+                </div>
+                <span>Upload Insurance Details</span>
+              </a>
+            </li> 
+            <li *ngIf="x.masterscreen == 'true'">
+            <a [routerLink]="['/master-report']">
+              <div class="hrms-images mb-1">
+                <img class="default-img" src="./assets/hrms/attendance.png" alt="Master Reprts" />
+                <img class="hover-img" src="./assets/hrms/attendance-active.png" alt="Master Reprts" />
+              </div>
+              <span>Master Reports</span>
+            </a>
+          </li>
+          </ng-container>
+
+          <!-- <li>
+          <a [routerLink]="['/confirmationletter']">
+          <span>CL</span>
+          <p>Confirm Letters</p>
+          </a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+    <div class="card ourInfo mt-3">
+      <div class="crdsGrid" *ngIf="showAssessmentSuite">
+        <h5 class="my-2">Asessment Suite</h5>
+        <ul>
+          <ng-container *ngFor="let x of Ryts">
+            <li *ngIf="x.Initiate_Assessment_Process == 'true'">
+              <a [routerLink]="['/assessmentProcess']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/assessment-process.png"
+                    alt="Assessment Process"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/assessment-process-active.png"
+                    alt="Assessment Process"
+                  />
+                </div>
+                <span>Assessment Process</span>
+              </a>
+            </li>
+
+            <li *ngIf="x.Assessment_Approvals_Report == 'true'">
+              <a [routerLink]="['/assessmentProcessReport']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/assessment-process-report.png"
+                    alt="Assessment Process Report"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/assessment-process-report-active.png"
+                    alt="Assessment Process Report"
+                  />
+                </div>
+                <span>Assessment Process Report</span>
+              </a>
+            </li>
+            <li *ngIf="x.Assessment_Extended_Report == 'true'">
+              <a [routerLink]="['/assessmentExtendedReport']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/assessment-extended-report.png"
+                    alt="Assessment Extended Report"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/assessment-extended-report-active.png"
+                    alt="Assessment Extended Report"
+                  />
+                </div>
+                <span>Assessment Extended Report</span>
+              </a>
+            </li>
+            <li *ngIf="x.Assessment_Permant_Report == 'true'">
+              <a [routerLink]="['/assessmentPermanentReport']">
+                <div class="hrms-images mb-1">
+                  <img
+                    class="default-img"
+                    src="./assets/hrms/assessment-permanent-report.png"
+                    alt="Assessment Permanent Report"
+                  />
+                  <img
+                    class="hover-img"
+                    src="./assets/hrms/assessment-permanent-report-active.png"
+                    alt="Assessment Permanent Report"
+                  />
+                </div>
+                <span>Assessment Permanent Report</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+    <!--End Our Info  -->
+  </div>
+</div>

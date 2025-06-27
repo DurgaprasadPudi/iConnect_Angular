@@ -1,0 +1,401 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item" [routerLink]="['/hrms']">HRMS</li>
+      <li class="breadcrumb-item active" aria-current="page">Idcard History</li>
+    </span>
+    <!-- <li class="_date">Logged in from {{myDate | momentDate: "dddd, DD"}}<sup>{{(myDate | momentDate: "D") | dateSuffix}}</sup>
+          {{myDate | momentDate: "MMM yyyy, hh:mm A"}}</li> -->
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD" }}
+      <sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+
+<div class="container-fluid">
+  <form [formGroup]="idcardissuedate" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="card theCrd p-4 border-0">
+      <div class="row align-items-end mb-3">
+        <div class="col-md-2">
+          <label for="empid" class="form-label">Employee ID <span class="text-danger">*</span></label>
+          <input id="empid" type="text" class="form-control" formControlName="empid" (focus)="onEmpIdFocus()"
+            (keypress)="allowOnly8Digits($event)" (keydown)="allowOnlyNumbers($event)"
+            placeholder="Enter Employee ID" />
+          <div *ngIf="
+              idcardissuedate.get('empid')?.invalid &&
+              (idcardissuedate.get('empid')?.touched ||
+                idcardissuedate.get('empid')?.dirty)
+            " class="text-danger">
+            <small *ngIf="idcardissuedate.get('empid')?.errors?.required">Employee ID is required.</small>
+            <small *ngIf="idcardissuedate.get('empid')?.errors?.pattern">Only digits allowed.</small>
+            <small *ngIf="idcardissuedate.get('empid')?.errors?.minlength">Minimum 5 digits required.</small>
+            <small *ngIf="idcardissuedate.get('empid')?.errors?.maxlength">Maximum 8 digits allowed.</small>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="employeename" class="form-label">Employee Name <span class="text-danger">*</span></label>
+          <input id="employeename" type="text" class="form-control" formControlName="employeename"
+            placeholder="Employee Name" readonly />
+        </div>
+
+        <div class="col-md-2">
+          <label for="division" class="form-label">Division <span class="text-danger">*</span></label>
+          <input id="division" type="text" class="form-control" formControlName="division" placeholder="Division"
+            readonly />
+        </div>
+
+        <div class="col-md-2">
+          <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+          <input id="department" type="text" class="form-control" formControlName="department" placeholder="Department"
+            readonly />
+        </div>
+
+        <div class="col-md-2">
+          <label for="designation" class="form-label">Designation <span class="text-danger">*</span></label>
+          <input id="designation" type="text" class="form-control" formControlName="designation"
+            placeholder="Designation" readonly />
+        </div>
+
+        <div class="col-md-2">
+          <label for="status" class="form-label">Status <span class="text-danger">*</span></label>
+          <input id="status" type="text" class="form-control" formControlName="status" placeholder="Status" readonly />
+        </div>
+      </div>
+      <div class="row align-items-end mb-3">
+        <div class="col-md-2">
+          <label for="employmenttype" class="form-label">Employment Type <span class="text-danger">*</span></label>
+          <input id="employmenttype" type="text" class="form-control" formControlName="employmenttype"
+            placeholder="Employment Type" readonly />
+        </div>
+
+        <div class="col-md-2">
+          <label for="cardType" class="form-label">Issued Type <span class="text-danger">*</span></label>
+          <select id="cardType" class="form-select form-control" formControlName="cardType">
+            <option value="" disabled selected hidden>Select Type</option>
+            <option value="1">Issue New ID</option>
+            <option value="2">Re-Issue ID</option>
+
+          </select>
+          <div *ngIf="
+                        idcardissuedate.get('cardType')?.invalid &&
+                        (idcardissuedate.get('cardType')?.touched ||
+                          idcardissuedate.get('cardType')?.dirty)
+                      " class="text-danger">
+            <small *ngIf="idcardissuedate.get('cardType')?.errors?.required">Issued type is required.</small>
+          </div>
+        </div>
+
+
+        <div class="col-md-2">
+          <label for="date" class="form-label">Issued Date <span class="text-danger">*</span></label>
+          <input type="text" id="date" class="form-control" placeholder="DD-MM-YYYY" bsDatepicker readonly
+            formControlName="date" container="body" [bsConfig]="{
+              dateInputFormat: 'DD-MM-YYYY',
+              isAnimated: true,
+              containerClass: 'theme-dark-blue',
+              adaptivePosition: true
+            }" />
+          <div *ngIf="
+              idcardissuedate.get('date')?.invalid &&
+              (idcardissuedate.get('date')?.touched ||
+                idcardissuedate.get('date')?.dirty)
+            " class="text-danger">
+            <small *ngIf="idcardissuedate.get('date')?.errors?.required">Date is required.</small>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="comments" class="form-label">Comments</label>
+          <input type="text" id="comments" class="form-control" formControlName="comments" maxlength="300"
+            placeholder="Comments" (input)="limitCommentLength()" rows="1" />
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary px-3" [disabled]="isLoading">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row mt-3">
+    <!-- Table section: 10 cols on md+, full width on small -->
+    <div class="col-md-12 col-sm-12">
+
+
+      <div class="tableSection bg-white p-3 rounded">
+        <div class="row mb-3 align-items-center">
+          <!-- Radio buttons -->
+          <div class="col-md-9">
+            <div class="d-flex align-items-center ml-4">
+              <label class="form-check-label d-flex align-items-center" style="width: 19%; font-size: medium;">
+                <input type="radio" class="form-check-input mb-1" name="status" value="1001"
+                  [(ngModel)]="selectedStatus" (change)="getIdCardHistory(selectedStatus)" />
+                Active Employees
+              </label>
+              <label class="form-check-label d-flex align-items-center" style="width: auto; font-size: medium;">
+                <input type="radio" class="form-check-input mb-1" name="status" value="1002"
+                  [(ngModel)]="selectedStatus" (change)="getIdCardHistory(selectedStatus)" />
+                Resigned Employees
+              </label>
+            </div>
+          </div>
+
+          <!-- Search input -->
+          <div class="col-md-3 gap-4">
+            <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search by Employee ID"
+              (input)="search()" />
+          </div>
+        </div>
+
+        <div class="table-responsive mt-2">
+          <table *ngIf="selectedStatus === '1001'" class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Employee ID</th>
+                <!-- <th>Issued Type</th> -->
+                <th>Issued Date</th>
+                <th>Comments</th>
+                <th>Issued By</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="displayDataActive.length === 0 || filteredData.length === 0">
+                <td colspan="5" class="text-center">No data found</td>
+              </tr>
+              <!-- <tr *ngIf="filteredData.length === 0">
+                <td colspan="5" class="text-center">No data found</td>
+              </tr> -->
+              <tr *ngFor="let item of paginatedData">
+                <td>{{ item.employeeid }} - {{ item.employeeName }}</td>
+                <!-- <td>{{ item.cardType }}</td> -->
+                <td>{{ item.idCardIssuedDate }}</td>
+                <!-- <td>{{ item.issuedComment | slice:0:30 }}</td> -->
+
+                <td *ngIf="item.issuedComment && item.issuedComment.length > 20" tooltip="{{ item.issuedComment }}"
+                  placement="bottom" container="body" triggers="hover" class="cursor-pointer">
+                  {{ item.issuedComment | slice:0:30 }}...
+                </td>
+                <td *ngIf="item.issuedComment && item.issuedComment.length <= 20">
+                  {{ item.issuedComment }}
+                </td>
+
+                <td>{{ item.createdBy }}-{{ item.createdByName }}</td>
+                <td>
+                  <button class="btn btn-success editbtn" (click)="openViewPopup(item.trackingId)">View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table *ngIf="selectedStatus === '1002'" class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Employee ID</th>
+                <!-- <th>Issued Type</th> -->
+                <th>Issued Date</th>
+                <th>Comments</th>
+                <th>Issued By</th>
+                <th>Submitted date</th>
+                <th>Submitted comments</th>
+                <th>Submitted by</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="displayDataInactive.length === 0 || filteredData.length === 0">
+                <td colspan="8" class="text-center">No data found</td>
+              </tr>
+              <!-- <tr *ngIf="filteredData.length === 0">
+                <td colspan="8" class="text-center">No data found</td>
+              </tr> -->
+
+              <tr *ngFor="let item of paginatedData">
+                <td>{{ item.employeeid }} - {{ item.employeeName }}</td>
+                <!-- <td>{{ item.cardType }}</td> -->
+                <td>{{ item.idCardIssuedDate}}</td>
+                <td>{{ item.issuedComment | slice: 0:30 }}</td>
+
+                <td>{{ item.createdBy }}-{{ item.createdByName }}</td>
+                <td>{{ item.idSubmittedDate }}</td>
+                <!-- <td>{{ item.submittedComment }}</td> -->
+                <td *ngIf="item.submittedComment && item.submittedComment.length > 20"
+                  tooltip="{{ item.submittedComment }}" placement="bottom" container="body" triggers="hover"
+                  class="cursor-pointer">
+                  {{ item.submittedComment | slice:0:30 }}...
+                </td>
+                <td *ngIf="item.submittedComment && item.submittedComment.length <= 20">
+                  {{ item.submittedComment }}
+                </td>
+
+                <td>{{ item.idSubmittedBy }}-{{ item.submittedByName }}</td>
+                <td>
+                  <button class="btn btn-primary mr-2 edit-btn" (click)="openEditModal(item)">Edit</button>
+                  <button class="btn btn-success edit-btn" (click)="openViewPopup(item.trackingId)">View</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0, 0, 0, 0.5);"
+          *ngIf="showEditModal">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 650px;">
+            <div class="modal-content" style="border-radius: 10px;">
+              <div class="modal-header">
+                <h5 class="modal-title">ID Card Submission Details</h5>
+                <button type="button" class="btn" (click)="closeModal()"
+                  style="font-size: 2rem; line-height: 1; border: none; background: transparent;">&times;</button>
+              </div>
+
+              <div class="modal-body">
+                <div class="container-fluid">
+                  <div class="row">
+
+                    <!-- Employee ID (readonly) -->
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label mb-1">Employee ID <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" [(ngModel)]="selectedRow.employeeid" readonly />
+                    </div>
+
+                    <!-- Submitted Date -->
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label mb-1">Submitted Date <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" [(ngModel)]="selectedRow.idcardissueddate" bsDatepicker
+                        readonly container="body" [bsConfig]="{
+                    dateInputFormat: 'DD-MM-YYYY',
+                    isAnimated: true,
+                    containerClass: 'theme-dark-blue',
+                    adaptivePosition: true
+                  }" />
+                    </div>
+
+                    <!-- Submitted Comments -->
+                    <div class="col-md-12">
+                      <label class="form-label mb-1">Submitted Comments</label>
+                      <textarea class="form-control" rows="1" [(ngModel)]="selectedRow.comment"
+                        placeholder="comments (max 300 characters)" maxlength="300"></textarea>
+                    </div>
+
+                    <!-- Submitted By (readonly) -->
+                    <!-- <div class="col-md-6 mb-3">
+                      <label class="form-label mb-1">Submitted By</label>
+                      <input type="text" class="form-control" [(ngModel)]="selectedRow.createdBy" readonly />
+                    </div> -->
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer justify-content-center">
+                <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                <button class="btn btn-success" (click)="update()">Update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <nav>
+          <ul class="pagination justify-content-end">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="prevPage()">
+                <i class="fa fa-chevron-left"></i>
+              </button>
+            </li>
+
+            <li *ngFor="let page of paginationRange" class="page-item" [class.active]="currentPage === page"
+              [class.disabled]="page === '...'">
+              <button class="page-link" (click)="goToPage(page)" *ngIf="page !== '...'">
+                {{ page }}
+              </button>
+              <span class="page-link disabled" *ngIf="page === '...'">...</span>
+            </li>
+
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <button class="page-link" (click)="nextPage()">
+                <i class="fa fa-chevron-right"></i>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Popup -->
+<div *ngIf="showViewPopup" class="modal-backdrop">
+  <div class="modal-content p-3">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-3">
+      <h5 class="mb-0">Reissued Details</h5>
+      <button type="button" class="close border-0 bg-transparent fs-4" aria-label="Close"
+        (click)="showViewPopup = false">
+        &times;
+      </button>
+    </div>
+
+    <!-- <div style="max-height: 300px; overflow-y: auto;"> -->
+    <div class="table-container">
+      <table class="table table-bordered table-hover text-center mt-2">
+        <thead>
+          <tr>
+            <!-- <th>ID</th> -->
+            <th>Reissued Date</th>
+            <th>Comment</th>
+            <th>Reissued By</th>
+            <!-- <th>Reissued By Name</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="viewData.length === 0">
+            <td colspan="3" class="text-center">No data found</td>
+          </tr>
+          <tr *ngFor="let row of viewData">
+            <!-- <td>{{ row.id }}</td> -->
+            <td>{{ row.reissuedDate }}</td>
+            <!-- <td>{{ row.comment || 'N/A' }}</td> -->
+
+            <td *ngIf="row.comment && row.comment.length > 20" tooltip="{{ row.comment }}" tooltipClass="custom-tooltip"
+              placement="bottom" container="body" triggers="hover" class="cursor-pointer">
+              {{ row.comment | slice:0:30 }}...
+            </td>
+            <td *ngIf="row.comment.length <= 20">
+              {{ row.comment }}
+            </td>
+
+
+            <td>{{ row.reissuedBy }} - {{ row.reissuedByName }}</td>
+            <!-- <td>{{ row.reissuedByName }}</td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

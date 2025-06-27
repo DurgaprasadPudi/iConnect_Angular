@@ -1,0 +1,321 @@
+<div class="container-fluid">
+  <app-nav></app-nav>
+</div>
+<nav aria-label="breadcrumb ">
+  <ol class="breadcrumb p_3">
+    <span>
+      <li class="breadcrumb-item active" aria-current="page">HR Hiring</li>
+    </span>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+    <!-- <li class="_date">Date: Wednesday, December 09, 2020</li> -->
+  </ol>
+</nav>
+<div class="container">
+  <input
+    type="text"
+    (keydown)="clicktext($event)"
+    name="name"
+    placeholder="text"
+  />
+  <p>{{ currentValue }}</p>
+</div>
+<div class="container">
+  <h3>Key Event Example in Angular</h3>
+  <input
+    type="text"
+    (keydown)="onKeyDown($event)"
+    (keyup)="onKeyUp($event)"
+    (keypress)="onKeyPress($event)"
+    placeholder="Type something"
+  />
+
+  <p><strong>Last Key Pressed:</strong> {{ lastKey }}</p>
+  <p><strong>Event Type:</strong> {{ eventType }}</p>
+</div>
+<div class="container">
+  <h3>Change Event Example</h3>
+  <input
+    type="text"
+    (change)="onChange($event)"
+    placeholder="Type something and press Enter or click outside"
+  />
+
+  <p><strong>Final Value:</strong> {{ finalValue }}</p>
+</div>
+<div class="container">
+  <h3>Input Event Example</h3>
+  <input type="text" (input)="onInput($event)" placeholder="Type something" />
+
+  <p><strong>Current Value:</strong> {{ currentValue }}</p>
+</div>
+
+<div class="container-fluid">
+  <div style="display: flex">
+    <div class="sidenavbar">
+      <ul class="nav navbar-nav side-nav">
+        <li (click)="toggle()">
+          <a href="#" data-toggle="collapse" data-target="#submenu-1">
+            Functional Requirements
+            <i [ngClass]="homeIcon" style="color: red"></i>
+          </a>
+          <div *ngIf="isarrow">
+            <ul id="submenu-1" class="collapse">
+              <li>
+                <a href="#">Job Codes</a>
+              </li>
+              <li>
+                <a href="#">Vacancy Requirements</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href=""> Non Functional Requirements</a>
+        </li>
+        <li>
+          <a href="#">Use Case Scenarios</a>
+        </li>
+        <li>
+          <a href="#"> Appendices</a>
+        </li>
+      </ul>
+    </div>
+    <div class="jobcode-section">
+      <div style="display: flex">
+        <div class="title">
+          <h3>Job Code</h3>
+        </div>
+
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-box"
+            placeholder="Search with job Code"
+          />
+          <button class="search-btn">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+
+        <div class="create-jobcode">
+          <button (click)="openModal()">Create New Job Code</button>
+          <div
+            *ngIf="isModalOpen"
+            class="modal fade show"
+            tabindex="-1"
+            role="dialog"
+            id="createJobCodeModal"
+            aria-labelledby="createJobCodeModalLabel"
+            aria-hidden="false"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h5 class="modal-title" id="createJobCodeModalLabel">
+                    New Job Code
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    aria-label="Close"
+                    (click)="closeModal()"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <!-- Modal Body with Form -->
+                <div class="modal-body">
+                  <form (ngSubmit)="submitForm($event)">
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                        <label for="roletitle">Role Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="roletitle"
+                          name="roletitle"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="reportingtomanager"
+                          >Reporting to Manager</label
+                        >
+                        <select
+                          class="form-control"
+                          id="reportingtomanager"
+                          name="reportingtomanager"
+                        >
+                          <option value="">Select</option>
+                        </select>
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="experience">Experience(Min - Max)</label>
+                        <div class="d-flex align-items-center exp">
+                          <p>Min</p>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="experience"
+                            name="experience"
+                            required
+                          />
+                          <p>exp</p>
+                          <p class="pipe">|</p>
+                          <p>Max</p>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="experience"
+                            name="experience"
+                            required
+                          />
+                          <p>exp</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 form-group">
+                        <label for="ctc">CTC(Min - Max)</label>
+                        <div class="d-flex align-items-center exp">
+                          <p>Min</p>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="experience"
+                            name="experience"
+                            required
+                          />
+                          <p>LPA</p>
+                          <p class="pipe">|</p>
+                          <p>Max</p>
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="experience"
+                            name="experience"
+                            required
+                          />
+                          <p>LPA</p>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="experience"
+                          name="experience"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="Companies">preferable Companies</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="Companies"
+                          name="Companies"
+                          required
+                        />
+                      </div>
+                      <div class="col-md-4 form-group">
+                        <label for="Description">Description</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="Description"
+                          name="Description"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="btnblock">
+                      <button type="submit" class="submit btn btn-primary">
+                        Submit
+                      </button>
+                      <button type="button" class="cancel btn btn-secondary">
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="isSuccessModal"
+          class="modal fade show"
+          id="exampleModalToggle2"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel2"
+          tabindex="-1"
+          style="display: block"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">
+                  <div class="success-btn">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  (click)="closeSuccessModal()"
+                  aria-label="Close"
+                >
+                  X
+                </button>
+              </div>
+              <div class="modal-body">
+                Hide this modal and show the first with the button below.
+              </div>
+              <div class="modal-footer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>name</th>
+              <th>Department</th>
+              <!-- <th>
+                Experience(Min-Max) <i class="fa fa-fw fa-angle-down"></i>
+              </th>
+              <th>CTC(Min-Max) <i class="fa fa-fw fa-angle-down"></i></th>
+              <th>Status <i class="fa fa-fw fa-angle-down"></i></th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="let employee of employees">
+              <td>{{ employee.id }}</td>
+              <td>{{ employee.name }}</td>
+              <td>{{ employee.department }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="exportToExcel()">Export to Excel</button>
+
+<!-- <div class="container">
+  <input
+    type="text"
+    #box
+    (input)="clicktext(box.value)"
+    name="name"
+    placeholder="text"
+  />
+  <p>{{ displaytext }}</p>
+</div> -->

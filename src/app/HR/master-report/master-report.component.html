@@ -1,0 +1,228 @@
+<app-nav></app-nav>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">
+      HR/Master Reports
+    </li>
+    <li class="_date">
+      Logged in from {{ myDate | momentDate : "dddd, DD"
+      }}<sup>{{ myDate | momentDate : "D" | dateSuffix }}</sup>
+      {{ myDate | momentDate : "MMM yyyy, hh:mm A" }}
+    </li>
+  </ol>
+</nav>
+<div class="container-fluid py-3">
+  <div class="d-flex gap-4 align-items-start flex-wrap">
+    <!-- BU Dropdown -->
+    <div class="ml-2">
+      <label class="fw-bold mb-1">Location </label>
+      <div
+        class="border rounded p-2"
+        style="height: auto; overflow-y: auto; width: 300px"
+      >
+      <div
+      class="form-check mb-1"
+      *ngFor="let loc of ['HYD', 'MUM']"
+    >
+      <ng-container *ngIf="loc === sublocation">
+        <input
+          class="form-check-input custom-radio-checkbox"
+          type="radio"
+          name="locationRadio"
+          [value]="loc"
+          [(ngModel)]="selectedLocation"
+          (change)="onLocationChange()"
+          [id]="'loc_' + loc"
+        />
+        <label class="form-check-label" [for]="'loc_' + loc">
+          {{ loc }} Master Report
+        </label>
+      </ng-container>
+    </div>
+    
+      </div>
+    </div>
+    <div class="ml-2">
+      <label class="fw-bold mb-1">Business Unit</label>
+      <div
+        class="border rounded p-2"
+        style="height: 130px; overflow-y: auto; width: 300px"
+      >
+        <!-- Select All -->
+        <div class="form-check mb-1">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="selectAllBU"
+            [checked]="isAllBUSelected()"
+            (change)="toggleSelectAllBU($event)"
+          />
+          <label class="form-check-label" for="selectAllBU">Select All</label>
+        </div>
+
+        <!-- BU list -->
+        <div *ngFor="let bu of BUNames" class="form-check mb-1">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="bu.id"
+            (change)="onBUCheckboxChange($event)"
+            [checked]="selectedBUName.includes(bu.id)"
+            [id]="'bu_' + bu.id"
+          />
+          <label class="form-check-label" [for]="'bu_' + bu.id">
+            {{ bu.name }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Multi-Select -->
+    <div class="ml-2">
+      <label class="fw-bold mb-1">Status (Optional)</label>
+      <div
+        class="status-multiselect border rounded p-2"
+        style="height: 130px; overflow-y: auto; width: 300px"
+      >
+        <div class="form-check mb-1">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="selectAllStatus"
+            [checked]="isAllStatusSelected()"
+            (change)="toggleSelectAllStatus($event)"
+          />
+          <label class="form-check-label" for="selectAllStatus"
+            >Select All</label
+          >
+        </div>
+
+        <div *ngFor="let status of statusCodes" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [value]="status.id"
+            (change)="onStatusCheckboxChange($event)"
+            [checked]="selectedStatusCodes.includes(status.id)"
+            id="status_{{ status.id }}"
+          />
+          <label class="form-check-label" [for]="'status_' + status.id">
+            {{ status.name }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Search Button -->
+  <div class="ml-2 text-center">
+    <label class="invisible d-block">Search</label>
+    <button class="btn btn-sm btn-primary" (click)="fetchEmployees()">
+      Search
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid mt-2">
+  <div class="row py-2">
+    <div class="col-md-12">
+      <div class="mb-2 d-flex justify-content-end">
+        <button class="btn btn-success mr-3" (click)="downloadExcel()">
+          Export to Excel
+        </button>
+        <input
+          type="text"
+          class="form-control w-25 ms-2"
+          [(ngModel)]="searchTerm"
+          placeholder="Search by ID or Name"
+          (input)="onSearch()"
+        />
+      </div>
+
+      <div class="table-responsive" style="max-height: 500px; overflow: auto">
+        <table
+          class="table table-sm table-bordered"
+          style="min-width: max-content"
+        >
+          <thead>
+            <tr>
+              <th
+                *ngFor="let col of allColumns; let i = index"
+                [ngClass]="{
+                  'sticky-col-1': i === 0,
+                  'sticky-col-2': i === 1,
+                  'sticky-header': true
+                }"
+              >
+                {{ columnDisplayNames[col] || col }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="paginatedData.length === 0">
+              <td
+                [attr.colspan]="allColumns.length"
+                class="text-center fw-bold"
+              >
+                No data found
+              </td>
+            </tr>
+            <tr *ngFor="let emp of paginatedData">
+              <td
+                *ngFor="let col of allColumns; let i = index"
+                [ngClass]="{
+                  'sticky-col-1': i === 0,
+                  'sticky-col-2': i === 1
+                }"
+              >
+                {{ emp[col] || "-" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Pagination Controls -->
+      <div class="d-flex justify-content-end mt-3">
+        <nav *ngIf="filteredData.length > pageSize">
+          <ul class="pagination mx-2 text-end">
+            <!-- Previous -->
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <button class="page-link" (click)="changePage(currentPage - 1)">
+                <<
+              </button>
+            </li>
+
+            <!-- Pages -->
+            <li
+              class="page-item"
+              *ngFor="let page of totalPagesArray()"
+              [class.active]="page === currentPage"
+              [class.disabled]="page === '...'"
+            >
+              <button
+                class="page-link"
+                [disabled]="page === '...'"
+                (click)="safeChangePage(page)"
+              >
+                {{ page }}
+              </button>
+            </li>
+
+            <!-- Next -->
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <button class="page-link" (click)="changePage(currentPage + 1)">
+                >>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loader transLoadr" *ngIf="isLoading">
+  <div class="spinner">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+  </div>
+</div>

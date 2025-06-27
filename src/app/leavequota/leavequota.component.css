@@ -1,0 +1,1050 @@
+.detailsModl._csvew th.sticky-col.prev, detailsModl.req th.sticky-col.prev {
+  z-index: 999 !important;
+}
+.detailsModl._csvew th.req, detailsModl.req th.req {
+  z-index: 999 !important;
+}
+
+.search-hero {
+  height: 40px;
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  width: 100%;
+  max-width: 400px;
+}
+.search-hero i.fa {
+  position: absolute;
+  line-height: 1.6;
+  font-size: 1.3em;
+  background: white;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  color: rgba(16, 16, 16, 0.7);
+  border: 1px solid #ced4da;
+  border-right: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.search-hero input {
+  font-size: 16px;
+  height: 40px;
+  padding-left: 2.5em;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ced4da;
+}
+.search-hero input::-moz-placeholder {
+  color: #b0b0b0;
+  font-size: 16px;
+}
+.search-hero input::placeholder {
+  color: #b0b0b0;
+  font-size: 16px;
+}
+
+.bgWyt {
+  position: relative;
+}
+
+.myTableScroll.popuptable {
+  max-height: 450px;
+  overflow: auto;
+}
+.myTableScroll.popuptable th, .myTableScroll.popuptable td {
+  min-width: -moz-max-content !important;
+  min-width: max-content !important;
+}
+
+.myTableScroll.maxtable {
+  max-height: 450px;
+  overflow: auto;
+}
+.myTableScroll.maxtable th, .myTableScroll.maxtable td {
+  width: 10% !important;
+  padding: 2px;
+}
+.myTableScroll.maxtable th.prev {
+  z-index: 999 !important;
+}
+
+.myTableScroll.empinfo {
+  margin-top: 40px;
+}
+.myTableScroll.empinfo th, .myTableScroll.empinfo td {
+  padding: 2px !important;
+  white-space: nowrap !important;
+  width: -moz-max-content;
+  width: max-content;
+  font-size: 12px !important;
+  white-space: normal !important;
+}
+.myTableScroll.empinfo th a._proccss, .myTableScroll.empinfo td a._proccss {
+  font-size: 12px !important;
+}
+.myTableScroll.empinfo th.prev {
+  z-index: 999 !important;
+}
+
+.action {
+  background: #3251e6;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+}
+
+.modal-xl.fullwidthmodel {
+  max-width: 100% !important;
+  margin: 0px !important;
+  height: 100vh !important;
+}
+.modal-xl.fullwidthmodel .modal-content {
+  overflow: auto !important;
+}
+
+.breadcrumb li.active {
+  color: #101010;
+  cursor: initial;
+}
+
+.bgWyt {
+  padding: 1em;
+  background: white;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 450px;
+  overflow: scroll;
+  position: relative;
+}
+div.myTableScroll table {
+  position: relative;
+  border-collapse: initial;
+  width: 100%;
+}
+div.myTableScroll td, div.myTableScroll th {
+  padding: 0.35em 0.85em;
+  text-align: left;
+  min-width: 60px;
+  white-space: nowrap;
+}
+div.myTableScroll td p, div.myTableScroll th p {
+  margin: 0;
+  font-size: 14px;
+}
+div.myTableScroll thead th {
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #e4eaf0;
+  color: #101010;
+}
+div.myTableScroll thead th:nth-child(2) {
+  z-index: 99;
+}
+div.myTableScroll thead th:nth-child(3) {
+  z-index: 99;
+}
+div.myTableScroll thead th:first-child {
+  left: 0;
+  z-index: 1;
+}
+div.myTableScroll thead th span {
+  font-weight: 700;
+  font-size: 13px;
+  color: #101010;
+  text-transform: uppercase;
+}
+div.myTableScroll thead th b {
+  font-weight: 600;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+div.myTableScroll thead th.s_no {
+  max-width: 50px;
+  min-width: 50px;
+}
+div.myTableScroll tbody th {
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+}
+div.myTableScroll tbody tr td {
+  background-color: #f7f9fb;
+}
+div.myTableScroll tbody tr:nth-child(even) td {
+  background-color: #f1f4f7;
+}
+div.myTableScroll tbody td {
+  font-size: 14px;
+  text-align: left;
+  padding: 0.35em 0.85em;
+  line-height: 1.4;
+}
+div.myTableScroll tbody td span._compltd {
+  color: #328d05;
+}
+div.myTableScroll tbody td span._proccss {
+  color: #0072bc;
+}
+div.myTableScroll tbody td span._pending {
+  color: #e46c03;
+}
+div.myTableScroll tbody td span._rejctd {
+  color: #ed0423;
+}
+div.myTableScroll tbody td a._proccss {
+  background: #fafafa;
+  display: block;
+  border: 1px solid #ccc;
+  text-align: center;
+  max-width: 100px;
+  padding: 0.25em;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 3px;
+  background: #0072bc;
+  color: white;
+}
+div.myTableScroll tbody td.s_no {
+  max-width: 50px;
+  min-width: 50px;
+}
+div.myTableScroll .sticky-col {
+  position: sticky;
+  position: -webkit-sticky;
+}
+div.myTableScroll .first-col {
+  left: 0px;
+  min-width: 160px;
+  white-space: initial;
+}
+div.myTableScroll .second-col {
+  width: 50px;
+  min-width: 50px;
+  left: 160px;
+  z-index: 1;
+}
+
+.detailsModl {
+  transition: transform 0.3s ease-out;
+  overflow-y: hidden;
+}
+.detailsModl::after {
+  position: absolute;
+  content: "";
+  background: black;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.detailsModl .modal_title_img h5 {
+  letter-spacing: -0.2px;
+  font-size: 18px;
+  margin-bottom: 0;
+}
+.detailsModl table th {
+  text-align: center;
+}
+.detailsModl table th span {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+.detailsModl table td, .detailsModl table th {
+  min-width: 200px;
+  white-space: initial;
+}
+.detailsModl table th.prev {
+  background: #3251e6;
+}
+.detailsModl table th.prev span {
+  color: white;
+}
+.detailsModl table th.req {
+  background: #ee7b05;
+}
+.detailsModl table th.req span {
+  color: white;
+}
+.detailsModl table td:nth-child(even) {
+  text-transform: uppercase;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.noData {
+  margin: 0em auto;
+  text-align: center;
+  font-size: 26px;
+  color: #767676;
+  background-color: #f3f5f8;
+  padding: 2em;
+}
+
+.veiwLink {
+  cursor: pointer;
+  color: #3251e6;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 10px 0px;
+  text-transform: capitalize;
+  display: block;
+}
+
+.reasonForm .form-group {
+  position: relative;
+}
+.reasonForm textarea {
+  max-height: 200px;
+  min-height: 100px;
+  outline: none !important;
+  box-shadow: none !important;
+  background: #f2f2f2;
+  border: 1px solid #cdcdcd;
+}
+.reasonForm button.btn {
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 1em 0.5em;
+  margin-bottom: 0;
+  min-width: 90px;
+}
+.reasonForm .alert.alert-danger {
+  background: white;
+  border: 0;
+  padding: 3px 3px;
+  color: #ba0202;
+  position: absolute;
+  left: 5px;
+  bottom: -24px;
+  font-size: 14px;
+  line-height: 1;
+  max-height: 19px;
+  overflow: hidden;
+}
+.reasonForm label {
+  font-weight: 600;
+}
+.reasonForm label sup {
+  font-size: 19px;
+  top: 0;
+  color: red;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.modal_title_img .label {
+  color: #3251e6;
+}
+
+.detailsModl._csvew th.sticky-col.prev, detailsModl.req th.sticky-col.prev {
+  z-index: 999 !important;
+}
+.detailsModl._csvew th.req, detailsModl.req th.req {
+  z-index: 999 !important;
+}
+
+.search-hero {
+  height: 40px;
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  width: 100%;
+  max-width: 400px;
+}
+.search-hero i.fa {
+  position: absolute;
+  line-height: 1.6;
+  font-size: 1.3em;
+  background: white;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  color: rgba(16, 16, 16, 0.7);
+  border: 1px solid #ced4da;
+  border-right: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+.search-hero input {
+  font-size: 16px;
+  height: 40px;
+  padding-left: 2.5em;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ced4da;
+}
+.search-hero input::-moz-placeholder {
+  color: #b0b0b0;
+  font-size: 16px;
+}
+.search-hero input::placeholder {
+  color: #b0b0b0;
+  font-size: 16px;
+}
+
+.bgWyt {
+  position: relative;
+}
+
+.myTableScroll.popuptable {
+  max-height: 450px;
+  overflow: auto;
+}
+.myTableScroll.popuptable th, .myTableScroll.popuptable td {
+  min-width: -moz-max-content !important;
+  min-width: max-content !important;
+}
+
+.myTableScroll.maxtable {
+  max-height: 450px;
+  overflow: auto;
+}
+.myTableScroll.maxtable th, .myTableScroll.maxtable td {
+  width: 10% !important;
+  padding: 2px;
+}
+.myTableScroll.maxtable th.prev {
+  z-index: 999 !important;
+}
+
+.myTableScroll.empinfo {
+  margin-top: 40px;
+}
+.myTableScroll.empinfo th, .myTableScroll.empinfo td {
+  padding: 2px !important;
+  white-space: nowrap !important;
+  width: -moz-max-content;
+  width: max-content;
+  font-size: 12px !important;
+  white-space: normal !important;
+}
+.myTableScroll.empinfo th a._proccss, .myTableScroll.empinfo td a._proccss {
+  font-size: 12px !important;
+}
+.myTableScroll.empinfo th.prev {
+  z-index: 999 !important;
+}
+
+.action {
+  background: #3251e6;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+}
+
+.modal-xl.fullwidthmodel {
+  max-width: 100% !important;
+  margin: 0px !important;
+  height: 100vh !important;
+}
+.modal-xl.fullwidthmodel .modal-content {
+  overflow: auto !important;
+}
+
+.breadcrumb li.active {
+  color: #101010;
+  cursor: initial;
+}
+
+.bgWyt {
+  padding: 1em;
+  background: white;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 450px;
+  overflow: scroll;
+  position: relative;
+}
+div.myTableScroll table {
+  position: relative;
+  border-collapse: initial;
+  width: 100%;
+}
+div.myTableScroll td, div.myTableScroll th {
+  padding: 0.35em 0.85em;
+  text-align: left;
+  min-width: 60px;
+  white-space: nowrap;
+}
+div.myTableScroll td p, div.myTableScroll th p {
+  margin: 0;
+  font-size: 14px;
+}
+div.myTableScroll thead th {
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #e4eaf0;
+  color: #101010;
+}
+div.myTableScroll thead th:nth-child(2) {
+  z-index: 99;
+}
+div.myTableScroll thead th:nth-child(3) {
+  z-index: 99;
+}
+div.myTableScroll thead th:first-child {
+  left: 0;
+  z-index: 1;
+}
+div.myTableScroll thead th span {
+  font-weight: 700;
+  font-size: 13px;
+  color: #101010;
+  text-transform: uppercase;
+}
+div.myTableScroll thead th b {
+  font-weight: 600;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+div.myTableScroll thead th.s_no {
+  max-width: 50px;
+  min-width: 50px;
+}
+div.myTableScroll tbody th {
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+}
+div.myTableScroll tbody tr td {
+  background-color: #f7f9fb;
+}
+div.myTableScroll tbody tr:nth-child(even) td {
+  background-color: #f1f4f7;
+}
+div.myTableScroll tbody td {
+  font-size: 14px;
+  text-align: left;
+  padding: 0.35em 0.85em;
+  line-height: 1.4;
+}
+div.myTableScroll tbody td span._compltd {
+  color: #328d05;
+}
+div.myTableScroll tbody td span._proccss {
+  color: #0072bc;
+}
+div.myTableScroll tbody td span._pending {
+  color: #e46c03;
+}
+div.myTableScroll tbody td span._rejctd {
+  color: #ed0423;
+}
+div.myTableScroll tbody td a._proccss {
+  background: #fafafa;
+  display: block;
+  border: 1px solid #ccc;
+  text-align: center;
+  max-width: 100px;
+  padding: 0.25em;
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 3px;
+  background: #0072bc;
+  color: white;
+}
+div.myTableScroll tbody td.s_no {
+  max-width: 50px;
+  min-width: 50px;
+}
+div.myTableScroll .sticky-col {
+  position: sticky;
+  position: -webkit-sticky;
+}
+div.myTableScroll .first-col {
+  left: 0px;
+  min-width: 160px;
+  white-space: initial;
+}
+div.myTableScroll .second-col {
+  width: 50px;
+  min-width: 50px;
+  left: 160px;
+  z-index: 1;
+}
+
+.detailsModl {
+  transition: transform 0.3s ease-out;
+  overflow-y: hidden;
+}
+.detailsModl::after {
+  position: absolute;
+  content: "";
+  background: black;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.detailsModl .modal_title_img h5 {
+  letter-spacing: -0.2px;
+  font-size: 18px;
+  margin-bottom: 0;
+}
+.detailsModl table th {
+  text-align: center;
+}
+.detailsModl table th span {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+.detailsModl table td, .detailsModl table th {
+  min-width: 200px;
+  white-space: initial;
+}
+.detailsModl table th.prev {
+  background: #3251e6;
+}
+.detailsModl table th.prev span {
+  color: white;
+}
+.detailsModl table th.req {
+  background: #ee7b05;
+}
+.detailsModl table th.req span {
+  color: white;
+}
+.detailsModl table td:nth-child(even) {
+  text-transform: uppercase;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.noData {
+  margin: 0em auto;
+  text-align: center;
+  font-size: 26px;
+  color: #767676;
+  background-color: #f3f5f8;
+  padding: 2em;
+}
+
+.veiwLink {
+  cursor: pointer;
+  color: #3251e6;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: underline;
+  padding: 10px 0px;
+  text-transform: capitalize;
+  display: block;
+}
+
+.reasonForm .form-group {
+  position: relative;
+}
+.reasonForm textarea {
+  max-height: 200px;
+  min-height: 100px;
+  outline: none !important;
+  box-shadow: none !important;
+  background: #f2f2f2;
+  border: 1px solid #cdcdcd;
+}
+.reasonForm button.btn {
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 1em 0.5em;
+  margin-bottom: 0;
+  min-width: 90px;
+}
+.reasonForm .alert.alert-danger {
+  background: white;
+  border: 0;
+  padding: 3px 3px;
+  color: #ba0202;
+  position: absolute;
+  left: 5px;
+  bottom: -24px;
+  font-size: 14px;
+  line-height: 1;
+  max-height: 19px;
+  overflow: hidden;
+}
+.reasonForm label {
+  font-weight: 600;
+}
+.reasonForm label sup {
+  font-size: 19px;
+  top: 0;
+  color: red;
+}
+
+button:focus {
+  outline: none !important;
+}
+
+.modal_title_img .label {
+  color: #3251e6;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.085);
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.015);
+  border-radius: 8px;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.flxRow {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+.flxRow > div._col {
+  width: 100%;
+  max-width: 49.5%;
+}
+.flxRow > div._col h5 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #101010;
+  margin-bottom: 1em;
+}
+
+.flxItms ul {
+  display: flex;
+  list-style-type: none;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.flxItms.col3 ul {
+  flex-wrap: wrap;
+}
+.flxItms.col3 ul li {
+  display: flex;
+  width: 33.3333%;
+  text-align: left !important;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.flxItms.col3 ul li b {
+  margin: 0;
+  font-size: 16px;
+  padding: 4px 10px;
+  background-color: #e4eaf0;
+  border-radius: 4px;
+  min-width: 70px;
+  text-align: center;
+}
+.flxItms.col3 ul li p {
+  margin-left: 0.75em !important;
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.theBody {
+  position: relative;
+  border: 1px solid #e4eaf0;
+  padding-top: 45px;
+  background: #e4eaf0;
+  border-top: 3px solid #fff;
+}
+
+div.myTableScroll {
+  max-width: 100%;
+  max-height: 350px;
+  overflow: scroll;
+  position: relative;
+}
+div.myTableScroll table {
+  position: relative;
+  border-collapse: initial;
+  width: 100%;
+}
+div.myTableScroll td, div.myTableScroll th {
+  padding: 0.45em 0.75em;
+  text-align: left;
+  min-width: 130px;
+  white-space: nowrap;
+}
+div.myTableScroll td p, div.myTableScroll th p {
+  margin: 0;
+  font-size: 14px;
+}
+div.myTableScroll thead th {
+  /* for Safari */
+  position: sticky;
+  top: 0;
+  background: #e4eaf0;
+  color: #101010;
+}
+div.myTableScroll thead th:nth-child(2) {
+  z-index: 99;
+}
+div.myTableScroll thead th:first-child {
+  z-index: 1;
+}
+div.myTableScroll thead th span {
+  font-weight: 600;
+  font-size: 14px;
+  color: #101010;
+  text-transform: uppercase;
+}
+div.myTableScroll thead th b {
+  font-weight: 600;
+  font-size: 24px;
+  vertical-align: middle;
+  padding-left: 5px;
+}
+div.myTableScroll tbody th {
+  /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+}
+div.myTableScroll tbody tr {
+  background: #f1f4f7;
+}
+div.myTableScroll tbody tr:nth-child(even) {
+  background-color: #f7f9fb;
+}
+div.myTableScroll tbody td {
+  font-size: 14px;
+  text-align: left;
+  padding: 0.65em 0.75em;
+}
+div.myTableScroll tbody td span {
+  font-weight: 600;
+}
+div.myTableScroll .sticky-col {
+  position: sticky;
+  position: -webkit-sticky;
+  background-color: #fafbfc;
+}
+div.myTableScroll .first-col {
+  left: 0px;
+  min-width: 260px;
+}
+div.myTableScroll .second-col {
+  width: 50px;
+  min-width: 50px;
+  left: 160px;
+  z-index: 1;
+}
+
+.leaveFormSection .form-control {
+  background-color: #f2f6fa;
+}
+.leaveFormSection .form-control:focus, .leaveFormSection .form-control:active {
+  box-shadow: none;
+  outline: none;
+}
+.leaveFormSection textarea.form-control {
+  min-height: 80px;
+  max-height: 120px;
+}
+.leaveFormSection .form-group {
+  margin-bottom: 0.7rem;
+  position: relative;
+}
+.leaveFormSection .form-group .alert.alert-danger.myAlrt {
+  font-size: 14px;
+  position: absolute;
+  top: 3px;
+  right: 10px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #ea753a;
+}
+.leaveFormSection .form-group label {
+  margin: 0;
+  font-size: 16px;
+}
+
+.applyBtn {
+  display: block;
+  width: 100%;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;
+  outline: 0;
+  background: #7a86fa;
+  border-color: transparent;
+  color: #fff;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+.applyBtn:disabled {
+  background: rgba(122, 134, 250, 0.5803921569);
+}
+
+.gydLines {
+  background-color: #7a86fa;
+  color: #fff;
+  margin-bottom: 1em;
+}
+.gydLines h5 {
+  font-size: 20px;
+  margin-top: 0.55em;
+  margin-bottom: 0.65em;
+}
+.gydLines ul {
+  list-style-type: disc;
+  padding-left: 2em;
+  margin-bottom: 0;
+  max-width: 92%;
+}
+.gydLines ul li {
+  font-size: 16px;
+  margin-bottom: 8px;
+  line-height: 1.3;
+  font-weight: 300;
+}
+.gydLines ul li::marker {
+  font-size: 24px;
+}
+
+select.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  background-position-y: center;
+}
+
+.optionsList {
+  font-size: 16px;
+  vertical-align: middle;
+  background-color: #edf6fe;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.fRow {
+  display: flex;
+  justify-content: space-between;
+  flex: 0 0 49%;
+}
+.fRow .form-group {
+  width: 49%;
+}
+
+.card-footer.leaveDaysCount {
+  margin: -1em;
+  margin-top: 0;
+  border-top: 0;
+  background: #dfe7e8;
+}
+.card-footer.leaveDaysCount p {
+  margin: 0;
+  font-size: 16px;
+  color: #1eb622;
+  font-weight: 500;
+}
+
+ng-autocomplete.ng-autocomplete {
+  width: 50%;
+  display: block;
+}
+
+.notfctnAlert {
+  position: absolute;
+  top: 5px;
+  right: 14px;
+  color: #dbff00;
+  background: #2a2c39;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 14px;
+}
+
+.notfctnAlert.absltAlrt {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  color: #dbff00;
+  background: #2a2c39;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 14px;
+  max-width: 75%;
+  text-align: initial;
+  line-height: 1.4;
+}
+
+.invalid_fdbck {
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
+select.form-control.red_bordr {
+  border-color: #dc3545;
+}
+
+.loader.transLoadr {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(253, 253, 253, 0.4196078431);
+  top: 0;
+  left: 0;
+  z-index: 999999;
+}
+
+.modal-dialog {
+  max-width: 1200px;
+  margin: 0.2rem auto;
+}
+
+.modal-content {
+  height: 550px;
+  overflow: scroll;
+}
+
+.modal-body {
+  padding: 0px;
+}/*# sourceMappingURL=leavequota.component.css.map */
